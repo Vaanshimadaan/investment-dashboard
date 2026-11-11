@@ -93,10 +93,10 @@ function App() {
       </header>
 
       <main className="main">
-        {/* ================= CALCULATOR / DETAIL PAGE ================= */}
+        {/* ================= DETAIL PAGE WITH CALCULATOR ================= */}
         {page !== "home" && selectedInvestment ? (
           <section className="gold-page">
-            {/* Top Navigation Bar with Back Button & Quick Switcher */}
+            {/* Navigation Bar with Back Button & Quick Switcher */}
             <div className="calc-nav-bar">
               <button
                 className="back-btn"
@@ -126,58 +126,58 @@ function App() {
               </div>
             </div>
 
-            {/* Calculator Header */}
-            <div className="calc-header">
-              <p className="eyebrow">{selectedInvestment.type} CALCULATOR</p>
+            {/* 1. Investment Title & Hero */}
+            <div className="gold-hero">
+              <p className="eyebrow">{selectedInvestment.type}</p>
               <h1>
-                <span className="asset-icon">{selectedInvestment.icon}</span>
-                <span>{selectedInvestment.name} Calculator</span>
+                {selectedInvestment.icon} {selectedInvestment.name}
               </h1>
               <p>{selectedInvestment.description}</p>
             </div>
 
-            {/* Active Calculator Component */}
-            {page === "Gold" && <GoldCalculator />}
-            {page === "Silver" && <SilverCalculator />}
-            {page === "Fixed Deposit" && <FDCalculator />}
-            {page === "Recurring Deposit" && <RDCalculator />}
-            {page === "Stocks" && <StocksCalculator />}
+            {/* 2. Investment Overview Information Cards */}
+            <div className="gold-info">
+              <div className="info-card">
+                <span>Indicative Value</span>
+                <strong>{selectedInvestment.value}</strong>
+                <small>Reference benchmark</small>
+              </div>
 
-            {/* Preserved Information Cards */}
-            <div className="calc-deep-dive">
-              <div className="section-heading" style={{ marginTop: "40px" }}>
+              <div className="info-card">
+                <span>Investment Type</span>
+                <strong>{selectedInvestment.type}</strong>
+                <small>Asset classification</small>
+              </div>
+
+              <div className="info-card">
+                <span>Risk Level</span>
+                <strong>{selectedInvestment.risk}</strong>
+                <small>Risk profile</small>
+              </div>
+            </div>
+
+            {/* 3. About Section */}
+            <div className="gold-about">
+              <p className="eyebrow">ABOUT</p>
+              <h2>Why consider {selectedInvestment.name}?</h2>
+              <p>{selectedInvestment.about}</p>
+            </div>
+
+            {/* 4. Prominently Placed Functional Calculator Section */}
+            <div className="calculator-section" style={{ marginTop: "48px" }}>
+              <div className="section-heading">
                 <div>
-                  <p className="eyebrow">ASSET OVERVIEW</p>
-                  <h2>Market & Instrument Profile</h2>
+                  <p className="eyebrow">CALCULATE & ESTIMATE</p>
+                  <h2>{selectedInvestment.name} Calculator</h2>
                 </div>
+                <span className="count">Real-time simulation</span>
               </div>
 
-              <div className="gold-info">
-                <div className="info-card">
-                  <span>Indicative Value</span>
-                  <strong>{selectedInvestment.value}</strong>
-                  <small>Reference benchmark</small>
-                </div>
-
-                <div className="info-card">
-                  <span>Investment Type</span>
-                  <strong>{selectedInvestment.type}</strong>
-                  <small>Asset classification</small>
-                </div>
-
-                <div className="info-card">
-                  <span>Risk Level</span>
-                  <strong>{selectedInvestment.risk}</strong>
-                  <small>Volatility assessment</small>
-                </div>
-              </div>
-
-              {/* Preserved About Section */}
-              <div className="gold-about">
-                <p className="eyebrow">ABOUT</p>
-                <h2>Why consider {selectedInvestment.name}?</h2>
-                <p>{selectedInvestment.about}</p>
-              </div>
+              {page === "Gold" && <GoldCalculator />}
+              {page === "Silver" && <SilverCalculator />}
+              {page === "Fixed Deposit" && <FDCalculator />}
+              {page === "Recurring Deposit" && <RDCalculator />}
+              {page === "Stocks" && <StocksCalculator />}
             </div>
           </section>
         ) : (
