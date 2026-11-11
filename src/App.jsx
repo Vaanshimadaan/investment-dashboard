@@ -1,4 +1,9 @@
 import { useState } from "react";
+import GoldCalculator from "./components/calculators/GoldCalculator";
+import SilverCalculator from "./components/calculators/SilverCalculator";
+import FDCalculator from "./components/calculators/FDCalculator";
+import RDCalculator from "./components/calculators/RDCalculator";
+import StocksCalculator from "./components/calculators/StocksCalculator";
 
 const investments = [
   {
@@ -68,10 +73,8 @@ function App() {
 
   return (
     <div className="app">
-
       {/* Header */}
       <header className="header">
-
         <div
           className="logo"
           onClick={() => {
@@ -87,240 +90,159 @@ function App() {
         <button className="profile-btn">
           Profile
         </button>
-
       </header>
 
-
       <main className="main">
-
-        {/* ================= DETAIL PAGE ================= */}
-
-        {page !== "home" ? (
-
+        {/* ================= CALCULATOR / DETAIL PAGE ================= */}
+        {page !== "home" && selectedInvestment ? (
           <section className="gold-page">
+            {/* Top Navigation Bar with Back Button & Quick Switcher */}
+            <div className="calc-nav-bar">
+              <button
+                className="back-btn"
+                onClick={() => {
+                  setPage("home");
+                  setSelected(null);
+                }}
+              >
+                ← Back to Dashboard
+              </button>
 
-            <button
-              className="back-btn"
-              onClick={() => {
-                setPage("home");
-                setSelected(null);
-              }}
-            >
-              ← Back to investments
-            </button>
+              <div className="calc-tabs">
+                {investments.map((inv) => (
+                  <button
+                    key={inv.name}
+                    type="button"
+                    className={`calc-tab-btn ${page === inv.name ? "active" : ""}`}
+                    onClick={() => {
+                      setPage(inv.name);
+                      setSelected(inv.name);
+                    }}
+                  >
+                    <span className="tab-icon">{inv.icon}</span>
+                    <span>{inv.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
 
-
-            <div className="gold-hero">
-
-              <p className="eyebrow">
-                {selectedInvestment.type}
-              </p>
-
+            {/* Calculator Header */}
+            <div className="calc-header">
+              <p className="eyebrow">{selectedInvestment.type} CALCULATOR</p>
               <h1>
-                {selectedInvestment.icon}{" "}
-                {selectedInvestment.name}
+                <span className="asset-icon">{selectedInvestment.icon}</span>
+                <span>{selectedInvestment.name} Calculator</span>
               </h1>
-
-              <p>
-                {selectedInvestment.description}
-              </p>
-
+              <p>{selectedInvestment.description}</p>
             </div>
 
+            {/* Active Calculator Component */}
+            {page === "Gold" && <GoldCalculator />}
+            {page === "Silver" && <SilverCalculator />}
+            {page === "Fixed Deposit" && <FDCalculator />}
+            {page === "Recurring Deposit" && <RDCalculator />}
+            {page === "Stocks" && <StocksCalculator />}
 
-            {/* Information Cards */}
-
-            <div className="gold-info">
-
-              <div className="info-card">
-                <span>Indicative Value</span>
-
-                <strong>
-                  {selectedInvestment.value}
-                </strong>
-
-                <small>
-                  Prototype data
-                </small>
+            {/* Preserved Information Cards */}
+            <div className="calc-deep-dive">
+              <div className="section-heading" style={{ marginTop: "40px" }}>
+                <div>
+                  <p className="eyebrow">ASSET OVERVIEW</p>
+                  <h2>Market & Instrument Profile</h2>
+                </div>
               </div>
 
+              <div className="gold-info">
+                <div className="info-card">
+                  <span>Indicative Value</span>
+                  <strong>{selectedInvestment.value}</strong>
+                  <small>Reference benchmark</small>
+                </div>
 
-              <div className="info-card">
-                <span>Investment Type</span>
+                <div className="info-card">
+                  <span>Investment Type</span>
+                  <strong>{selectedInvestment.type}</strong>
+                  <small>Asset classification</small>
+                </div>
 
-                <strong>
-                  {selectedInvestment.type}
-                </strong>
-
-                <small>
-                  Investment category
-                </small>
+                <div className="info-card">
+                  <span>Risk Level</span>
+                  <strong>{selectedInvestment.risk}</strong>
+                  <small>Volatility assessment</small>
+                </div>
               </div>
 
-
-              <div className="info-card">
-                <span>Risk Level</span>
-
-                <strong>
-                  {selectedInvestment.risk}
-                </strong>
-
-                <small>
-                  For demonstration
-                </small>
+              {/* Preserved About Section */}
+              <div className="gold-about">
+                <p className="eyebrow">ABOUT</p>
+                <h2>Why consider {selectedInvestment.name}?</h2>
+                <p>{selectedInvestment.about}</p>
               </div>
-
             </div>
-
-
-            {/* About */}
-
-            <div className="gold-about">
-
-              <p className="eyebrow">
-                ABOUT
-              </p>
-
-              <h2>
-                Why consider {selectedInvestment.name}?
-              </h2>
-
-              <p>
-                {selectedInvestment.about}
-              </p>
-
-            </div>
-
           </section>
-
         ) : (
-
-          /* ================= HOME PAGE ================= */
-
+          /* ================= HOME / LANDING PAGE ================= */
           <>
-
             {/* Hero */}
-
             <section className="hero">
-
-              <p className="eyebrow">
-                SMART INVESTING
-              </p>
-
+              <p className="eyebrow">SMART INVESTING</p>
               <h1>
                 Grow your money,
                 <br />
                 <span>your way.</span>
               </h1>
-
               <p className="subtitle">
-                Explore different investment options and find
-                what works best for your financial goals.
+                Explore different investment options and find what works best
+                for your financial goals.
               </p>
-
             </section>
 
-
             {/* Investment Cards */}
-
             <section className="investments">
-
               <div className="section-heading">
-
                 <div>
-
-                  <p className="eyebrow">
-                    EXPLORE
-                  </p>
-
-                  <h2>
-                    Choose an investment
-                  </h2>
-
+                  <p className="eyebrow">EXPLORE</p>
+                  <h2>Choose an investment</h2>
                 </div>
-
-                <span className="count">
-                  {investments.length} options
-                </span>
-
+                <span className="count">{investments.length} options</span>
               </div>
 
-
               <div className="cards">
-
                 {investments.map((investment) => (
-
                   <div
                     key={investment.name}
                     className={`investment-card ${
-                      selected === investment.name
-                        ? "selected"
-                        : ""
+                      selected === investment.name ? "selected" : ""
                     }`}
                     onClick={() => {
                       setSelected(investment.name);
                       setPage(investment.name);
                     }}
                   >
-
                     <div className="card-top">
-
-                      <div className="investment-icon">
-                        {investment.icon}
-                      </div>
-
-                      <span className="symbol">
-                        {investment.symbol}
-                      </span>
-
+                      <div className="investment-icon">{investment.icon}</div>
+                      <span className="symbol">{investment.symbol}</span>
                     </div>
-
 
                     <div className="card-content">
-
-                      <h3>
-                        {investment.name}
-                      </h3>
-
-                      <p>
-                        {investment.description}
-                      </p>
-
+                      <h3>{investment.name}</h3>
+                      <p>{investment.description}</p>
                     </div>
 
-
-                    <div className="card-arrow">
-                      →
-                    </div>
-
+                    <div className="card-arrow">→</div>
                   </div>
-
                 ))}
-
               </div>
-
             </section>
-
           </>
         )}
-
       </main>
 
-
       {/* Footer */}
-
       <footer>
-
-        <span>
-          Investly
-        </span>
-
-        <span>
-          Investment exploration prototype
-        </span>
-
+        <span>Investly</span>
+        <span>Investment exploration platform</span>
       </footer>
-
     </div>
   );
 }
